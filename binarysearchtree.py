@@ -1,3 +1,16 @@
+from turtle import *
+import tkinter.messagebox
+import tkinter
+import random
+import math
+import datetime
+import time
+import sys
+
+screenMin = 0
+screenMax = 300
+
+
 class BinarySearchTree:
     # This is a Node class that is internal to the BinarySearchTree class. 
     class Node:
@@ -67,18 +80,81 @@ class BinarySearchTree:
 
     def __str__(self):
         return "BinarySearchTree(" + repr(self.root) + ")"
- 
+
+
+class Visualization(tkinter.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.pack()
+        self.buildWindow()
+        self.paused = False
+        self.stop = False
+        self.running = False
+        self.locked = False
+
+    def buildWindow(self):
+
+        cv = ScrolledCanvas(self, 600, 600, 600, 600)
+        cv.pack(side=tkinter.LEFT)
+        t = RawTurtle(cv)
+        screen = t.getscreen()
+        screen.tracer(100000)
+
+        screen.setworldcoordinates(screenMin, screenMin, screenMax, screenMax)
+        screen.bgcolor("white")
+        t.ht()
+
+        frame = tkinter.Frame(self)
+        frame.pack(side=tkinter.RIGHT, fill=tkinter.BOTH)
+
+        tree = BinarySearchTree()
+
+
+
+        def insertHandler():
+            node = nodeInput.get()
+            tree.insert(node)
+
+        def removeHandler():
+            node = nodeInput.get()
+            tree.remove(node)
+
+        def containsHandler():
+            node = nodeInput.get()
+            if node in tree:
+                tkinter.messagebox.showwarning("Search Results", "Item is in tree!")
+            else:
+                tkinter.messagebox.showwarning("Search Results", "Item is NOT in tree!")
+
+        def quitHandler():
+            self.master.quit()
+
+        quitButton = tkinter.Button(frame, text="Quit", command=quitHandler)
+        quitButton.pack()
+
+        text = tkinter.Label(frame, text="Node Value:")
+        text.pack()
+
+        nodeInput = tkinter.Entry(frame, width=20)
+        nodeInput.pack()
+
+
+        insertButton = tkinter.Button(frame, text="Insert", command=insertHandler)
+        insertButton.pack()
+
+        removeButton = tkinter.Button(frame, text="Remove", command=removeHandler)
+        removeButton.pack()
+
+        containsButton = tkinter.Button(frame, text="Contains?", command=containsHandler)
+        containsButton.pack()
+
+
 def main():
-    s = input("Enter a list of numbers: ")
-    lst = s.split()
-    
-    tree = BinarySearchTree()
-    
-    for x in lst:
-        tree.insert(float(x))
-        
-    for x in tree:
-        print(x)
+    root = tkinter.Tk()
+    root.title("Binary Tree Visualization")
+    application = Visualization(root)
+    application.mainloop()
+
 
 if __name__ == "__main__":
     main()
