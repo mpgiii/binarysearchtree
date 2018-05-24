@@ -22,7 +22,7 @@ class BinarySearchTree:
         def getVal(self):
             return self.val
         
-        def setVal(self,newval):
+        def setVal(self, newval):
             self.val = newval
             
         def getLeft(self):
@@ -31,23 +31,23 @@ class BinarySearchTree:
         def getRight(self):
             return self.right
         
-        def setLeft(self,newleft):
+        def setLeft(self, newleft):
             self.left = newleft
             
-        def setRight(self,newright):
+        def setRight(self, newright):
             self.right = newright
             
         # This method deserves a little explanation. It does an inorder traversal
         # of the nodes of the tree yielding all the values. In this way, we get
         # the values in ascending order.
         def __iter__(self):
-            if self.left != None:
+            if self.left is not None:
                 for elem in self.left:
                     yield elem
                     
             yield self.val
             
-            if self.right != None:
+            if self.right is not None:
                 for elem in self.right:
                     yield elem
 
@@ -58,17 +58,17 @@ class BinarySearchTree:
     def __init__(self, root=None):
         self.root = root
         
-    def insert(self,val):
-        self.root = BinarySearchTree.__insert(self.root,val)
+    def insert(self, val):
+        self.root = BinarySearchTree.__insert(self.root, val)
         
-    def __insert(root,val):
+    def __insert(root, val):
         if root is None:
             return BinarySearchTree.Node(val)
         
         if val < root.getVal():
-            root.setLeft(BinarySearchTree.__insert(root.getLeft(),val))
+            root.setLeft(BinarySearchTree.__insert(root.getLeft(), val))
         else:
-            root.setRight(BinarySearchTree.__insert(root.getRight(),val))
+            root.setRight(BinarySearchTree.__insert(root.getRight(), val))
             
         return root
 
@@ -89,10 +89,10 @@ class BinarySearchTree:
             return None
 
         if val < root.getVal():
-            root.setLeft(BinarySearchTree.__remove(root.getLeft(),val))
+            root.setLeft(BinarySearchTree.__remove(root.getLeft(), val))
 
         elif val > root.getVal():
-            root.setRight(BinarySearchTree.__remove(root.getRight(),val))
+            root.setRight(BinarySearchTree.__remove(root.getRight(), val))
 
         else:
             if root.getLeft() is None:
@@ -110,9 +110,8 @@ class BinarySearchTree:
 
         return root
 
-
     def __iter__(self):
-        if self.root != None:
+        if self.root is not None:
             return iter(self.root)
         else:
             return iter([])
@@ -148,8 +147,6 @@ class Visualization(tkinter.Frame):
 
         tree = BinarySearchTree()
 
-
-
         def insertHandler():
             node = nodeInput.get()
             tree.insert(node)
@@ -176,7 +173,6 @@ class Visualization(tkinter.Frame):
 
         nodeInput = tkinter.Entry(frame, width=20)
         nodeInput.pack()
-
 
         insertButton = tkinter.Button(frame, text="Insert", command=insertHandler)
         insertButton.pack()
