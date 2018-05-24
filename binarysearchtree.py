@@ -62,7 +62,7 @@ class BinarySearchTree:
         self.root = BinarySearchTree.__insert(self.root,val)
         
     def __insert(root,val):
-        if root == None:
+        if root is None:
             return BinarySearchTree.Node(val)
         
         if val < root.getVal():
@@ -71,7 +71,46 @@ class BinarySearchTree:
             root.setRight(BinarySearchTree.__insert(root.getRight(),val))
             
         return root
-        
+
+    def minValueNode(self, node):
+        current = node
+
+        # loop down to find the leftmost leaf
+        while current.left is not None:
+            current = current.left
+
+        return current
+
+    def remove(self, val):
+        BinarySearchTree.__remove(self.root, val)
+
+    def __remove(root, val):
+        if root is None:
+            return None
+
+        if val < root.getVal():
+            root.setLeft(BinarySearchTree.__remove(root.getLeft(),val))
+
+        elif val > root.getVal():
+            root.setRight(BinarySearchTree.__remove(root.getRight(),val))
+
+        else:
+            if root.getLeft() is None:
+                temp = root.getRight()
+                root = None
+                return temp
+            elif root.getRight() is None:
+                temp = root.getLeft()
+                root = None
+                return temp
+
+            temp = minValueNode(root.getRight())
+            root.setVal(temp.getVal())
+            root.setRight(BinarySearchTree.__remove(root.getRight(), val))
+
+        return root
+
+
     def __iter__(self):
         if self.root != None:
             return iter(self.root)
