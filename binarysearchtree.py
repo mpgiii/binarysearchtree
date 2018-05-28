@@ -51,6 +51,28 @@ class BinarySearchTree:
                 for elem in self.right:
                     yield elem
 
+        def preorder(self):
+            yield self.val
+
+            if self.right is not None:
+                for elem in self.right:
+                    yield elem
+
+            if self.left is not None:
+                for elem in self.left:
+                    yield elem
+
+        def postorder(self):
+            if self.left is not None:
+                for elem in self.left:
+                    yield elem
+
+            if self.right is not None:
+                for elem in self.right:
+                    yield elem
+
+            yield self.val
+
         def __repr__(self):
             return "BinarySearchTree.Node(" + repr(self.val) + "," + repr(self.left) + "," + repr(self.right) + ")"            
             
@@ -115,6 +137,27 @@ class BinarySearchTree:
             return iter(self.root)
         else:
             return iter([])
+
+    def inorder(self):
+        if self.root is not None:
+            return iter(self.root)
+        else:
+            return iter([])
+
+    def preorder(self):
+        if self.root is not None:
+            return preorder(self.root)
+        else:
+            return preorder([])
+
+    def postorder(self):
+        if self.root is not None:
+            return postorder(self.root)
+        else:
+            return postorder([])
+
+    def levelorder(self):
+        pass
 
     def __str__(self):
         return "BinarySearchTree(" + repr(self.root) + ")"
