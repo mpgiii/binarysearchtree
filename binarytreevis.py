@@ -14,7 +14,7 @@ screenMax = 300
 class BinarySearchTree:
     # This is a Node class that is internal to the BinarySearchTree class. 
     class Node:
-        def __init__(self,val,left=None,right=None):
+        def __init__(self, val, left=None, right=None):
             self.val = val
             self.left = left
             self.right = right
@@ -77,8 +77,11 @@ class BinarySearchTree:
             return "BinarySearchTree.Node(" + repr(self.val) + "," + repr(self.left) + "," + repr(self.right) + ")"            
             
     # Below are the methods of the BinarySearchTree class. 
-    def __init__(self, root=None):
+    def __init__(self, root=None, contents=None):
         self.root = root
+        if contents is not None:
+            for x in contents:
+                self.insert(x)
         
     def insert(self, val):
         self.root = BinarySearchTree.__insert(self.root, val)
@@ -103,18 +106,18 @@ class BinarySearchTree:
 
         return current
 
-    def remove(self, val):
-        BinarySearchTree.__remove(self.root, val)
+    def delete(self, val):
+        self.root = BinarySearchTree.__delete(self.root, val)
 
-    def __remove(root, val):
+    def __delete(root, val):
         if root is None:
             return None
 
         if val < root.getVal():
-            root.setLeft(BinarySearchTree.__remove(root.getLeft(), val))
+            root.setLeft(BinarySearchTree.__delete(root.getLeft(), val))
 
         elif val > root.getVal():
-            root.setRight(BinarySearchTree.__remove(root.getRight(), val))
+            root.setRight(BinarySearchTree.__delete(root.getRight(), val))
 
         else:
             if root.getLeft() is None:
@@ -128,7 +131,7 @@ class BinarySearchTree:
 
             temp = minValueNode(root.getRight())
             root.setVal(temp.getVal())
-            root.setRight(BinarySearchTree.__remove(root.getRight(), val))
+            root.setRight(BinarySearchTree.__delete(root.getRight(), val))
 
         return root
 
@@ -140,21 +143,22 @@ class BinarySearchTree:
 
     def inorder(self):
         if self.root is not None:
-            return iter(self.root)
+            return list(iter(self.root))
         else:
-            return iter([])
+            return list(iter([]))
 
     def preorder(self):
         if self.root is not None:
-            return preorder(self.root)
+            return list(self.root.preorder())
         else:
-            return preorder([])
+            return list(self.root.preorder())
 
     def postorder(self):
+        pass
         if self.root is not None:
-            return postorder(self.root)
+            return list(self.root.postorder())
         else:
-            return postorder([])
+            return list(self.root.postorder())
 
     def levelorder(self):
         pass
@@ -194,9 +198,9 @@ class Visualization(tkinter.Frame):
             node = nodeInput.get()
             tree.insert(node)
 
-        def removeHandler():
+        def deleteHandler():
             node = nodeInput.get()
-            tree.remove(node)
+            tree.delete(node)
 
         def containsHandler():
             node = nodeInput.get()
@@ -220,8 +224,8 @@ class Visualization(tkinter.Frame):
         insertButton = tkinter.Button(frame, text="Insert", command=insertHandler)
         insertButton.pack()
 
-        removeButton = tkinter.Button(frame, text="Remove", command=removeHandler)
-        removeButton.pack()
+        deleteButton = tkinter.Button(frame, text="Remove", command=deleteHandler)
+        deleteButton.pack()
 
         containsButton = tkinter.Button(frame, text="Contains?", command=containsHandler)
         containsButton.pack()
