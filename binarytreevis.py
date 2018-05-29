@@ -201,6 +201,7 @@ class BinarySearchTree:
                 queue.enqueue(x.getRight())
             else:
                 thelist.append(None)
+
         return thelist
 
     def __str__(self):
@@ -269,6 +270,7 @@ class Visualization(tkinter.Frame):
         def redraw():
             lst = []
             lst = tree.levelorderwithlevels()
+            print(tree.levelorderwithlevels())
             lev0 = []
             lev1 = []
             lev2 = []
@@ -276,7 +278,6 @@ class Visualization(tkinter.Frame):
             lev4 = []
             lev5 = []
             lev6 = []
-            print(tree.inorder())
             for i in range(len(lst)):
                 if len(lev0) < 1:
                     lev0.append(lst[i])
@@ -307,18 +308,22 @@ class Visualization(tkinter.Frame):
                     t.write(lev2[i], False, align="center")
             for i in range(len(lev3)):
                 if lev3[i] is not None:
+                    drawline(((i // 2) + 1) * 60, 180, (i+1)*33, 140)
                     t.goto((i+1)*33, 140)
                     t.write(lev3[i], False, align="center")
             for i in range(len(lev4)):
                 if lev4[i] is not None:
+                    drawline(((i // 2) + 1) * 33, 140, (i + 1) * 17, 100)
                     t.goto((i+1)*17, 100)
                     t.write(lev4[i], False, align="center")
             for i in range(len(lev5)):
                 if lev5[i] is not None:
+                    drawline(((i // 2) + 1) * 17, 100, (i + 1) * 9, 60)
                     t.goto((i+1)*9, 60)
                     t.write(lev5[i], False, align="center")
             for i in range(len(lev6)):
                 if lev6[i] is not None:
+                    drawline(((i // 2) + 1) * 9, 60, (i + 1) * 4, 20)
                     t.goto((i+1)*4, 20)
                     t.write(lev6[i], False, align="center")
 
