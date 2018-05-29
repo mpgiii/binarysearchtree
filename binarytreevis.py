@@ -7,6 +7,8 @@ import datetime
 import time
 import sys
 
+from queue import *
+
 screenMin = 0
 screenMax = 300
 
@@ -44,34 +46,39 @@ class BinarySearchTree:
             if self.left is not None:
                 for elem in self.left:
                     yield elem
-                    
+
             yield self.val
-            
+
             if self.right is not None:
                 for elem in self.right:
                     yield elem
+
+        def inorder(self):
+            res = []
+            if self.left is not None:
+                res = res + self.left.inorder()
+            res.append(self.getVal())
+            if self.right is not None:
+                res = res + self.right.inorder()
+            return res
 
         def preorder(self):
-            yield self.val
-
-            if self.right is not None:
-                for elem in self.right:
-                    yield elem
-
+            res = []
+            res.append(self.getVal())
             if self.left is not None:
-                for elem in self.left:
-                    yield elem
+                res = res + self.left.preorder()
+            if self.right is not None:
+                res = res + self.right.preorder()
+            return res
 
         def postorder(self):
+            res = []
             if self.left is not None:
-                for elem in self.left:
-                    yield elem
-
+                res = res + self.left.postorder()
             if self.right is not None:
-                for elem in self.right:
-                    yield elem
-
-            yield self.val
+                res = res + self.right.postorder()
+            res.append(self.getVal())
+            return res
 
         def __repr__(self):
             return "BinarySearchTree.Node(" + repr(self.val) + "," + repr(self.left) + "," + repr(self.right) + ")"            
@@ -143,9 +150,9 @@ class BinarySearchTree:
 
     def inorder(self):
         if self.root is not None:
-            return list(iter(self.root))
+            return list(self.root.inorder())
         else:
-            return list(iter([]))
+            return list(self.root.inorder())
 
     def preorder(self):
         if self.root is not None:
@@ -154,14 +161,24 @@ class BinarySearchTree:
             return list(self.root.preorder())
 
     def postorder(self):
-        pass
         if self.root is not None:
             return list(self.root.postorder())
         else:
             return list(self.root.postorder())
 
     def levelorder(self):
-        pass
+        thelist = []
+        queue = Queue()
+        queue.enqueue(self.root)
+        while not queue.isEmpty():
+            x = queue.dequeue()
+            thelist.append(x.getVal())
+            if x.getLeft() is not None:
+                queue.enqueue(x.getLeft())
+            if x.getRight() is not None:
+                queue.enqueue(x.getRight())
+        return thelist
+
 
     def __str__(self):
         return "BinarySearchTree(" + repr(self.root) + ")"

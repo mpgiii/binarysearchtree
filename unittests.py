@@ -2,7 +2,7 @@ from binarytreevis import *
 import unittest
 
 
-class Asg3Tests(unittest.TestCase):
+class GivenAsg3Tests(unittest.TestCase):
     def test_binsearchtree_constructor1(self):
         bt1 = BinarySearchTree(contents=[0, 1, 2, 5, 90, -1])
         bt2 = BinarySearchTree(contents=[0, 1, 2, 5, 90, -1])
